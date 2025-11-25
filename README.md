@@ -38,11 +38,11 @@ python Arduino.py
  You can customize the RFID card UIDs and corresponding names in the  `Arduino.py`  file by modifying the following lines:
 
     if uid == '43B4C495':
-        name = 'John Miles'
+        name = 'David B'
     elif uid == '81934043':
-       name = 'Mike Kaze'
+       name = 'Tomas G'
     elif uid == '63B001A6':
-        name = 'Fujiwara Kaede'
+        name = 'CALVIN KLEIN'
     else:
         name = 'Unknown'
 Replace the example UIDs with your own RFID card UIDs and update the names accordingly.

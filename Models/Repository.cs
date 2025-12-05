@@ -8,8 +8,8 @@ namespace cvicenie_mvc.Models
     public class Repository
     {
         public static List<AttendanceModel> attendances = new List<AttendanceModel>();
-        private readonly string connectionStringApis = "Server=tcp:apissql.database.windows.net,1433;Initial Catalog=apis;Persist Security Info=False;User ID=adminsql;Password=eRYE+7Ax;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-        private readonly string connectionStringStats = "Server=tcp:cvicenie1database.database.windows.net,1433;Initial Catalog=apissql;Persist Security Info=False;User ID=db540sj;Password=kyhJ&S4Z;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private readonly string connectionStringApis = "Server=tcp1";
+        private readonly string connectionStringStats = "Server=tcp2";
 
         private static bool HasColumn(SqlDataReader reader, string columnName)
         {

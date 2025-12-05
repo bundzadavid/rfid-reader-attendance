@@ -1,0 +1,267 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="container-fluid mt-5 px-4">
+    <!-- Header Section -->
+    <div class="text-center mb-5">
+        <h1 class="display-3 fw-bold mb-3">📊 Attendance Management System</h1>
+        <p class="lead text-muted">Efficient tracking and analysis of employee attendance</p>
+    </div>
+
+    <!-- Main Action Cards -->
+    <div class="row g-4 mb-5">
+        <!-- View Attendance Card -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card border-0 shadow-sm h-100 overflow-hidden hover-lift">
+                <div class="card-header bg-info bg-gradient text-white py-4">
+                    <h5 class="card-title mb-0">📋 View Attendance</h5>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <p class="card-text text-muted mb-3">
+                        View all individual attendance records with arrival and departure times.
+                    </p>
+                    <div class="mt-auto">
+                        <a asp-action="Read" class="btn btn-info w-100">
+                            View Records →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Attendance Summary Card -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card border-0 shadow-sm h-100 overflow-hidden hover-lift">
+                <div class="card-header bg-success bg-gradient text-white py-4">
+                    <h5 class="card-title mb-0">📊 Attendance Summary</h5>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <p class="card-text text-muted mb-3">
+                        Calculate average arrival/departure times and generate statistics.
+                    </p>
+                    <div class="mt-auto">
+                        <a asp-action="Process" class="btn btn-success w-100">
+                            Calculate Summary →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Average Time at Work Card -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card border-0 shadow-sm h-100 overflow-hidden hover-lift">
+                <div class="card-header bg-primary bg-gradient text-white py-4">
+                    <h5 class="card-title mb-0">⏱️ Average Time at Work</h5>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <p class="card-text text-muted mb-3">
+                        View average work duration for each employee with detailed breakdown.
+                    </p>
+                    <div class="mt-auto">
+                        <a asp-action="Visualization" class="btn btn-primary w-100">
+                            Average Time at Work →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="row g-4 mb-5">
+        <div class="col-12">
+            <h2 class="display-6 fw-bold mb-4">✨ Key Features</h2>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm text-center feature-card">
+                <div class="card-body">
+                    <div class="feature-icon mb-3">📈</div>
+                    <h5 class="card-title">Real-time Data</h5>
+                    <p class="card-text text-muted small">
+                        Access attendance records directly from your database
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm text-center feature-card">
+                <div class="card-body">
+                    <div class="feature-icon mb-3">⏱️</div>
+                    <h5 class="card-title">Smart Analysis</h5>
+                    <p class="card-text text-muted small">
+                        Automatic calculation of average times and patterns
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm text-center feature-card">
+                <div class="card-body">
+                    <div class="feature-icon mb-3">📊</div>
+                    <h5 class="card-title">Visual Reports</h5>
+                    <p class="card-text text-muted small">
+                        Beautiful tables and statistics for easy understanding
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm text-center feature-card">
+                <div class="card-body">
+                    <div class="feature-icon mb-3">🔄</div>
+                    <h5 class="card-title">Multi-Database</h5>
+                    <p class="card-text text-muted small">
+                        Seamless integration with multiple data sources
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stats Section -->
+    <div class="row g-4 mb-5">
+        <div class="col-12">
+            <h2 class="display-6 fw-bold mb-4">📌 Quick Guide</h2>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-start">
+                        <div class="badge bg-info rounded-circle p-3 me-3" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                            <span class="fw-bold text-white">1</span>
+                        </div>
+                        <div>
+                            <h5 class="card-title">View Attendance</h5>
+                            <p class="card-text text-muted small">
+                                Start by exploring all attendance records with detailed information about arrival and departure times.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-start">
+                        <div class="badge bg-success rounded-circle p-3 me-3" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                            <span class="fw-bold text-white">2</span>
+                        </div>
+                        <div>
+                            <h5 class="card-title">Attendance Summary</h5>
+                            <p class="card-text text-muted small">
+                                Click to calculate average arrival/departure times and process statistics for all employees.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-start">
+                        <div class="badge bg-primary rounded-circle p-3 me-3" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                            <span class="fw-bold text-white">3</span>
+                        </div>
+                        <div>
+                            <h5 class="card-title">Average Time at Work</h5>
+                            <p class="card-text text-muted small">
+                                View average work duration for each employee with detailed breakdown of hours and minutes.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 bg-light">
+                <div class="card-body text-center py-4">
+                    <p class="text-muted mb-2">
+                        <strong>Attendance Management System v1.0</strong>
+                    </p>
+                    <small class="text-muted">
+                        Tracking attendance with precision and efficiency
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .display-3 {
+        color: #2c3e50;
+        font-weight: 700;
+    }
+
+    .display-6 {
+        color: #34495e;
+        font-weight: 600;
+    }
+
+    .bg-gradient {
+        background: linear-gradient(135deg, var(--bs-primary) 0%, var(--bs-primary) 100%) !important;
+    }
+
+    .card {
+        transition: all 0.3s ease;
+        border-radius: 8px;
+    }
+
+    .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1) !important;
+    }
+
+    .hover-lift {
+        transition: all 0.3s ease;
+    }
+
+    .hover-lift:hover {
+        transform: translateY(-10px);
+    }
+
+    .feature-icon {
+        font-size: 2.5rem;
+    }
+
+    .feature-card {
+        transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.12) !important;
+    }
+
+    .lead {
+        font-size: 1.3rem;
+        font-weight: 300;
+    }
+
+    .btn {
+        border-radius: 6px;
+        font-weight: 500;
+        padding: 10px 20px;
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    }
+</style>

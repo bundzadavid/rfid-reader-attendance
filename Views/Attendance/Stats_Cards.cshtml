@@ -1,0 +1,83 @@
+﻿@model IEnumerable<AttendanceStatsModel>
+
+@{
+    ViewData["Title"] = "Attendance Statistics";
+}
+
+<div class="container-fluid mt-5 px-4">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="display-5 fw-bold">📊 Attendance Statistics</h1>
+            <p class="text-muted">Real-time attendance analysis by person</p>
+        </div>
+        <a asp-controller="Attendance" asp-action="Index" class="btn btn-lg btn-outline-secondary">
+            ← Back to Home
+        </a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <strong>ℹ️ No data available</strong> - Please process attendance records first.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var record in Model)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm border-0 overflow-hidden">
+                        <div class="card-header bg-primary bg-gradient">
+                            <h5 class="card-title mb-0 text-white">👤 @record.PersonName</h5>
+                        </div>
+                        
+                        <div class="card-body">
+                            <div class="mb-4 pb-3 border-bottom">
+                                <small class="text-muted d-block mb-2">
+                                    <strong>🕐 Average Arrival Time</strong>
+                                </small>
+                                <p class="fs-5 fw-bold text-success mb-0">
+                                    @(record.AverageArrivalTime.HasValue ? record.AverageArrivalTime.Value.ToString(@"hh\:mm\:ss") : "N/A")
+                                </p>
+                            </div>
+
+                            <div class="mb-4 pb-3 border-bottom">
+                                <small class="text-muted d-block mb-2">
+                                    <strong>🕑 Average Departure Time</strong>
+                                </small>
+                                <p class="fs-5 fw-bold text-info mb-0">
+                                    @(record.AverageDepartureTime.HasValue ? record.AverageDepartureTime.Value.ToString(@"hh\:mm\:ss") : "N/A")
+                                </p>
+                            </div>
+
+                            <div class="pb-2">
+                                <small class="text-muted d-block mb-2">
+                                    <strong>📈 Total Records</strong>
+                                </small>
+                                <div class="d-flex align-items-center">
+                                    <span class="badge bg-warning text-dark fs-6">@record.TotalRecords</span>
+                                    <small class="ms-2 text-muted">records tracked</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+    }
+    .bg-gradient {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+</style>

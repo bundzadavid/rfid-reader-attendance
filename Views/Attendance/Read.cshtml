@@ -1,0 +1,237 @@
+﻿@model IEnumerable<AttendanceModel>
+
+@{
+    ViewData["Title"] = "Raw Attendance Data";
+    var records = Model.ToList();
+}
+
+<div class="container-fluid mt-5 px-4">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="display-5 fw-bold">📋 Raw Attendance Data</h1>
+            <p class="text-muted">All individual attendance records</p>
+        </div>
+        <div>
+            <a asp-controller="Attendance" asp-action="Process" class="btn btn-success me-2">
+                ⚙️ Process & Calculate Stats
+            </a>
+            <a asp-controller="Attendance" asp-action="Stats" class="btn btn-outline-primary me-2">
+                📊 View Statistics
+            </a>
+            <a asp-controller="Attendance" asp-action="Index" class="btn btn-lg btn-outline-secondary">
+                ← Back to Home
+            </a>
+        </div>
+    </div>
+
+    @if (!records.Any())
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>⚠️ No data available</strong> - No attendance records found.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    else
+    {
+        <!-- Summary Cards -->
+        <div class="row g-3 mb-5">
+            <div class="col-md-3">
+                <div class="card text-center border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted">Total Records</h5>
+                        <h2 class="text-primary fw-bold">@records.Count()</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted">With Arrival Time</h5>
+                        <h2 class="text-success fw-bold">@records.Count(r => r.ArrivalTime.HasValue)</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted">With Departure Time</h5>
+                        <h2 class="text-info fw-bold">@records.Count(r => r.DepartureTime.HasValue)</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted">Unique People</h5>
+                        <h2 class="text-warning fw-bold">@records.Select(r => r.Name).Distinct().Count()</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Table -->
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-dark text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">📅 All Records</h5>
+                    <small class="text-light">Total: @records.Count() records</small>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="text-center" style="width: 60px;">ID</th>
+                                <th>👤 Person Name</th>
+                                <th class="text-center">🕐 Arrival Time</th>
+                                <th class="text-center">🕑 Departure Time</th>
+                                <th class="text-center">⏱️ Duration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var record in records)
+                        {
+                            <tr>
+                                <td class="text-center align-middle">
+                                    <span class="badge bg-secondary">@record.Id</span>
+                                </td>
+                                <td class="fw-bold align-middle">@record.Name</td>
+                                <td class="text-center align-middle">
+                                    @if (record.ArrivalTime.HasValue)
+                                    {
+                                        <span class="badge bg-success fs-6">
+                                            @record.ArrivalTime.Value.ToString("HH:mm:ss")
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-light text-dark">N/A</span>
+                                    }
+                                </td>
+                                <td class="text-center align-middle">
+                                    @if (record.DepartureTime.HasValue)
+                                    {
+                                        <span class="badge bg-info fs-6">
+                                            @record.DepartureTime.Value.ToString("HH:mm:ss")
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-light text-dark">N/A</span>
+                                    }
+                                </td>
+                                <td class="text-center align-middle">
+                                    @if (record.ArrivalTime.HasValue && record.DepartureTime.HasValue)
+                                    {
+                                        var duration = record.DepartureTime.Value - record.ArrivalTime.Value;
+                                        var hours = (int)duration.TotalHours;
+                                        var minutes = (int)duration.TotalMinutes % 60;
+                                        <span class="badge bg-warning text-dark fs-6">
+                                            @($"{hours}h {minutes}m")
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-light text-dark">N/A</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Statistics Section -->
+        <div class="row g-4 mt-4">
+            <div class="col-lg-6">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-primary bg-gradient text-white">
+                        <h5 class="card-title mb-0">👥 Records by Person</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group list-group-flush">
+                        @foreach (var person in records.GroupBy(r => r.Name).OrderByDescending(g => g.Count()))
+                        {
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <span class="fw-bold">@person.Key</span>
+                                <span class="badge bg-primary rounded-pill">@person.Count()</span>
+                            </div>
+                        }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-success bg-gradient text-white">
+                        <h5 class="card-title mb-0">📊 Data Completeness</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Records with Arrival Time</span>
+                                <strong>@records.Count(r => r.ArrivalTime.HasValue)/@records.Count()</strong>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" 
+                                     style="width: @(records.Count() > 0 ? (records.Count(r => r.ArrivalTime.HasValue) * 100 / records.Count()) : 0)%">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Records with Departure Time</span>
+                                <strong>@records.Count(r => r.DepartureTime.HasValue)/@records.Count()</strong>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-info" role="progressbar" 
+                                     style="width: @(records.Count() > 0 ? (records.Count(r => r.DepartureTime.HasValue) * 100 / records.Count()) : 0)%">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Complete Records (both times)</span>
+                                <strong>@records.Count(r => r.ArrivalTime.HasValue && r.DepartureTime.HasValue)/@records.Count()</strong>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-warning" role="progressbar" 
+                                     style="width: @(records.Count() > 0 ? (records.Count(r => r.ArrivalTime.HasValue && r.DepartureTime.HasValue) * 100 / records.Count()) : 0)%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .card {
+        transition: all 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.15) !important;
+    }
+    .display-5 {
+        color: #2c3e50;
+        font-weight: 700;
+    }
+    .table-hover tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+    .bg-gradient {
+        background: linear-gradient(135deg, var(--bs-primary) 0%, var(--bs-primary) 100%) !important;
+    }
+    .list-group-item {
+        padding: 12px 16px;
+    }
+</style>
